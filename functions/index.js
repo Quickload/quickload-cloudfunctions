@@ -36,6 +36,7 @@ exports.jobs = functions.https.onRequest((request, response) => {
 exports.user = functions.https.onRequest((request, response) => {
     const uid = request.query.userId
     const usersRef = admin.firestore().collection("users")
+    const jobsRef = admin.firestore().collection("jobs")
     const selectedUserRef = usersRef.doc(uid)
     const pinnedJobsRef = selectedUserRef.collection("pinnedJobs")
     const acceptJobsRef = selectedUserRef.collection("acceptedJobs")
@@ -48,41 +49,57 @@ exports.user = functions.https.onRequest((request, response) => {
             if (!doc.exists) {
                 console.log('No such document!');
             } else {
-                console.log('Document data:', doc.data());
+                // console.log('Document data:', doc.data());
                 user = doc.data()
                 const pinnedJobsPromise = pinnedJobsRef
                     .get()
                     .then(snapshot => {
+                        let jobPromises = []
                         snapshot.forEach(doc => {
-                            console.log('Pinned data:', doc.data());
-                            pinnedJobs.push(doc.data());
+                            const jobId = doc.data().jobId
+                            const jobPromise = jobsRef.doc(jobId)
+                                .get()
+                                .then(doc => {
+                                    if (!doc.exists) {
+                                        console.log('No such document!');
+                                    } else {
+                                        console.log(doc.data(), 'pinned data')
+                                        pinnedJobs.push(doc.data())
+                                    }
+                                })
+                            jobPromises.push(jobPromise)
                         });
-                        return pinnedJobs
+                        return Promise.all(jobPromises).then(_ =>  pinnedJobs)
                     })
 
                 const acceptedJobPromise = acceptJobsRef
                     .get()
                     .then(snapshot => {
+                        let jobPromises = []
                         snapshot.forEach(doc => {
-                            console.log('Accepted data:', doc.data());
-                            acceptJobs.push(doc.data());
+                            const jobId = doc.data().jobId
+                            const jobPromise = jobsRef.doc(jobId)
+                                .get()
+                                .then(doc => {
+                                    if (!doc.exists) {
+                                        console.log('No such document!');
+                                    } else {
+                                        console.log(doc.data(), 'accepted data')
+                                        acceptJobs.push(doc.data())
+                                    }
+                                })
+                            jobPromises.push(jobPromise)
                         });
-                        return acceptJobs
+                        return Promise.all(jobPromises).then(_ =>  acceptJobs)
                     })
 
                 Promise.all([acceptedJobPromise, pinnedJobsPromise])
                     .then(val => {
                         user.acceptedJobs = val[0]
                         user.pinnedJobs = val[1]
-
-                        console.log(user);
-
+                        
                         response.send(200, user)
-                        // response.send(200).body(user);
                     })
-
-
-                // response.send(200, user)
             }
         });
 });
