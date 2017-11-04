@@ -1,13 +1,25 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const nodemailer = require('nodemailer');
+// Configure the email transport using the default SMTP transport and a GMail account.
+// For Gmail, enable these:
+// 1. https://www.google.com/settings/security/lesssecureapps
+// 2. https://accounts.google.com/DisplayUnlockCaptcha
+// For other types of transports such as Sendgrid see https://nodemailer.com/transports/
+// TODO: Configure the `gmail.email` and `gmail.password` Google Cloud environment variables.
+const gmailEmail = encodeURIComponent(functions.config().gmail.email);
+const gmailPassword = encodeURIComponent(functions.config().gmail.password);
+const mailTransport = nodemailer.createTransport(
+    `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+
 // const cors = require('cors')({
 //     origin: true
 // });
 admin.initializeApp(functions.config().firebase);
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
+// Your company name to include in the emails
+// TODO: Change this to your app or company name to customize the email sent.
+const APP_NAME = 'Quickload';
 
 function useCors(req, res) {
     res.set('Access-Control-Allow-Origin', "*")
@@ -17,6 +29,9 @@ function useCors(req, res) {
 }
 
 
+// Get all jobs
+// Data dump for now
+// Can map filters when needed
 exports.jobs = functions.https.onRequest((request, response) => {
     const docRef = admin.firestore().collection("jobs")
     // response = useCors(response);
@@ -44,7 +59,10 @@ exports.jobs = functions.https.onRequest((request, response) => {
         });
 });
 
-
+// Get a user
+// Using references to accepted jobs,
+// Append acceptedJobs object to user
+// We need to use promises to resolve data fetching gracefully
 exports.user = functions.https.onRequest((request, response) => {
     const uid = request.query.userId
     const usersRef = admin.firestore().collection("users")
@@ -116,6 +134,9 @@ exports.user = functions.https.onRequest((request, response) => {
         });
 });
 
+
+// Add job to users acceptedJobs collection
+// Send an email upon success
 exports.addJob = functions.https.onRequest((request, response) => {
     let userJobRef = admin.firestore().collection("users").doc(request.query.userId).collection("acceptedJobs")
 
@@ -128,6 +149,7 @@ exports.addJob = functions.https.onRequest((request, response) => {
     });
 });
 
+// Remove job from user's acceptedJobs collection
 exports.cancelJob = functions.https.onRequest((request, response) => {
     let userJobRef = admin.firestore().collection("users")
         .doc(request.query.userId).collection("acceptedJobs")
@@ -136,3 +158,36 @@ exports.cancelJob = functions.https.onRequest((request, response) => {
 
     response.send(200);
 });
+
+// [START onCreateTrigger]
+exports.sendAcceptedEmail = functions.firestore.document('users/{uid}/acceptedJobs/{jobId}')
+    .onCreate(event => {
+        // [END onCreateTrigger]
+        // [START eventAttributes]
+        const user = event.data.data()
+
+        const email = "quickload@gmail.com"; // The email of the user.
+        const displayName = "userName here"; // The display name of the user.
+        // [END eventAttributes]
+
+        return sendEmail(email, displayName);
+    });
+
+/**
+ * EMAILS
+ */
+
+// Template function for sending emails.
+function sendEmail(email, displayName) {
+    const mailOptions = {
+        from: `${APP_NAME} <noreply@firebase.com>`,
+        to: email
+    };
+
+    // The user subscribed to the newsletter.
+    mailOptions.subject = `${APP_NAME} - Accepted Load!`;
+    mailOptions.text = `Hey ${displayName || ''}! You just accepted a load. If you did not make this request, please cancel your job through the ${APP_NAME} app. I hope you will enjoy our service.`;
+    return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New welcome email sent to:', email);
+    });
+}
