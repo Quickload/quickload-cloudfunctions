@@ -21,7 +21,7 @@ exports.jobs = functions.https.onRequest((request, response) => {
     const docRef = admin.firestore().collection("jobs")
     // response = useCors(response);
     response.set('Access-Control-Allow-Origin', "*")
-    response.set('Access-Control-Allow-Methods', 'GET, POST')  
+    response.set('Access-Control-Allow-Methods', 'GET, POST')
     var jobs = [];
 
     docRef
@@ -116,32 +116,23 @@ exports.user = functions.https.onRequest((request, response) => {
         });
 });
 
-// exports.addJob = functions.https.onRequest((request, response) => {
-//     cors((request, response, () => {
-//         let userJobRef = null
-//         if (request.query.pinned) {
-//             jobRef = admin.firestore().collection("users").doc(request.query.userId).collection("pinnedJobs")
-//         } else {
-//             jobRef = admin.firestore().collection("users").doc(request.query.userId).collection("acceptedJobs")
-//         }
+exports.addJob = functions.https.onRequest((request, response) => {
+    let userJobRef = admin.firestore().collection("users").doc(request.query.userId).collection("acceptedJobs")
 
-//         jobRef
-//             .get()
-//             .then(snapshot => {
-//                 snapshot.forEach(doc => {
-//                     jobs.push(doc.data());
-//                 });
+    userJobRef.add({
+        jobId: request.query.jobId
+    }).then(ref => {
+        console.log('Added document with ID: ', ref.id);
+        console.log(ref, 'ref data');
+        response.send(200);
+    });
+});
 
+exports.cancelJob = functions.https.onRequest((request, response) => {
+    let userJobRef = admin.firestore().collection("users")
+        .doc(request.query.userId).collection("acceptedJobs")
+        .doc(request.query.jobId)
+        .delete()
 
-//                 // const filteredJobs = jobs.map((job) => {
-//                 //     return {
-//                 //         id: job.documentID,
-//                 //         PickCity: job.PickCity,
-//                 //         QLNumber: job.QLNumber
-//                 //     }
-//                 // })
-
-//                 response.send(200, jobs);
-//             });
-//     }));
-// });
+    response.send(200);
+});

@@ -1,0 +1,37 @@
+[debug] [2017-11-04T22:02:29.180Z] ----------------------------------------------------------------------
+[debug] [2017-11-04T22:02:29.213Z] Command:       /usr/local/Cellar/node/8.9.0/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2017-11-04T22:02:29.213Z] CLI Version:   3.14.0
+[debug] [2017-11-04T22:02:29.213Z] Platform:      darwin
+[debug] [2017-11-04T22:02:29.214Z] Node Version:  v8.9.0
+[debug] [2017-11-04T22:02:29.226Z] Time:          Sat Nov 04 2017 18:02:29 GMT-0400 (EDT)
+[debug] [2017-11-04T22:02:29.227Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-11-04T22:02:29.341Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-11-04T22:02:29.341Z] > authorizing via signed-in user
+[debug] [2017-11-04T22:02:29.344Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-11-04T22:02:29.344Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/nSXjHronSSZqWz5sA2QeuaH02D26kEjhOAZqt4SGWhpet69ftKQxOyo0txbAmiai',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sat Nov 04 2017 18:02:29 GMT-0400 (EDT)
+[debug] [2017-11-04T22:02:29.793Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T22:02:29.886Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/quickload-f4a75  
+ Sat Nov 04 2017 18:02:29 GMT-0400 (EDT)
+[debug] [2017-11-04T22:02:30.266Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T22:02:30.267Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/quickload-f4a75/tokens  
+ Sat Nov 04 2017 18:02:30 GMT-0400 (EDT)
+[debug] [2017-11-04T22:02:31.053Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/owl/Documents/quickoad-cloudfunctions'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2017-11-04T22:02:34.791Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/quickload-f4a75  
+ Sat Nov 04 2017 18:02:34 GMT-0400 (EDT)
+[debug] [2017-11-04T22:02:34.792Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/quickload-f4a75/apiKeys  
+ Sat Nov 04 2017 18:02:34 GMT-0400 (EDT)
+[debug] [2017-11-04T22:02:35.042Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T22:02:35.183Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: jobs: http://localhost:5000/quickload-f4a75/us-central1/jobs
+[info] ✔  functions: user: http://localhost:5000/quickload-f4a75/us-central1/user
+[info] ✔  functions: addJob: http://localhost:5000/quickload-f4a75/us-central1/addJob
