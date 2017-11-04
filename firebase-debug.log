@@ -1,0 +1,61 @@
+[debug] [2017-11-04T19:24:14.717Z] ----------------------------------------------------------------------
+[debug] [2017-11-04T19:24:14.721Z] Command:       /usr/local/Cellar/node/8.9.0/bin/node /usr/local/bin/firebase deploy --only functions:user
+[debug] [2017-11-04T19:24:14.721Z] CLI Version:   3.14.0
+[debug] [2017-11-04T19:24:14.721Z] Platform:      darwin
+[debug] [2017-11-04T19:24:14.721Z] Node Version:  v8.9.0
+[debug] [2017-11-04T19:24:14.754Z] Time:          Sat Nov 04 2017 15:24:14 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:14.754Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-11-04T19:24:14.832Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-11-04T19:24:14.832Z] > authorizing via signed-in user
+[debug] [2017-11-04T19:24:14.835Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-11-04T19:24:14.835Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/nSXjHronSSZqWz5sA2QeuaH02D26kEjhOAZqt4SGWhpet69ftKQxOyo0txbAmiai',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sat Nov 04 2017 15:24:14 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:15.420Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T19:24:15.470Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/quickload-f4a75  
+ Sat Nov 04 2017 15:24:15 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:15.882Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T19:24:15.883Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/quickload-f4a75/tokens  
+ Sat Nov 04 2017 15:24:15 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:16.261Z] <<< HTTP RESPONSE 200
+[info] 1
+[info] 
+[info] === Deploying to 'quickload-f4a75'...
+[info] 
+[info] i  deploying functions
+[debug] [2017-11-04T19:24:17.019Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase experimental:functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-admin": "~5.4.2",
+    "firebase-functions": "^0.7.1"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[info] i  runtimeconfig: ensuring necessary APIs are enabled...
+[debug] [2017-11-04T19:24:17.021Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sat Nov 04 2017 15:24:17 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:17.022Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sat Nov 04 2017 15:24:17 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:17.843Z] <<< HTTP RESPONSE 200
+[info] ✔  runtimeconfig: all necessary APIs are enabled
+[debug] [2017-11-04T19:24:17.893Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2017-11-04T19:24:17.895Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/quickload-f4a75  
+ Sat Nov 04 2017 15:24:17 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:17.896Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/quickload-f4a75/apiKeys  
+ Sat Nov 04 2017 15:24:17 GMT-0400 (EDT)
+[debug] [2017-11-04T19:24:18.525Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T19:24:18.707Z] <<< HTTP RESPONSE 200
