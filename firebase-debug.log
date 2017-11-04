@@ -1,33 +1,33 @@
-[debug] [2017-11-04T20:14:28.789Z] ----------------------------------------------------------------------
-[debug] [2017-11-04T20:14:28.793Z] Command:       /usr/local/Cellar/node/8.9.0/bin/node /usr/local/bin/firebase deploy --only functions:user
-[debug] [2017-11-04T20:14:28.793Z] CLI Version:   3.14.0
-[debug] [2017-11-04T20:14:28.793Z] Platform:      darwin
-[debug] [2017-11-04T20:14:28.793Z] Node Version:  v8.9.0
-[debug] [2017-11-04T20:14:28.794Z] Time:          Sat Nov 04 2017 16:14:28 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:28.794Z] ----------------------------------------------------------------------
+[debug] [2017-11-04T21:00:46.099Z] ----------------------------------------------------------------------
+[debug] [2017-11-04T21:00:46.103Z] Command:       /usr/local/Cellar/node/8.9.0/bin/node /usr/local/bin/firebase deploy
+[debug] [2017-11-04T21:00:46.103Z] CLI Version:   3.14.0
+[debug] [2017-11-04T21:00:46.103Z] Platform:      darwin
+[debug] [2017-11-04T21:00:46.103Z] Node Version:  v8.9.0
+[debug] [2017-11-04T21:00:46.104Z] Time:          Sat Nov 04 2017 17:00:46 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:46.104Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2017-11-04T20:14:28.855Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2017-11-04T20:14:28.856Z] > authorizing via signed-in user
-[debug] [2017-11-04T20:14:28.858Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2017-11-04T20:14:28.858Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/nSXjHronSSZqWz5sA2QeuaH02D26kEjhOAZqt4SGWhpet69ftKQxOyo0txbAmiai',
+[debug] [2017-11-04T21:00:46.188Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-11-04T21:00:46.188Z] > authorizing via signed-in user
+[debug] [2017-11-04T21:00:46.191Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-11-04T21:00:46.191Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/nSXjHronSSZqWz5sA2QeuaH02D26kEjhOAZqt4SGWhpet69ftKQxOyo0txbAmiai',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Sat Nov 04 2017 16:14:28 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:28.989Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-04T20:14:29.098Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/quickload-f4a75  
- Sat Nov 04 2017 16:14:29 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:29.449Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-04T20:14:29.450Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/quickload-f4a75/tokens  
- Sat Nov 04 2017 16:14:29 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:29.799Z] <<< HTTP RESPONSE 200
+ Sat Nov 04 2017 17:00:46 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:46.330Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T21:00:46.375Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/quickload-f4a75  
+ Sat Nov 04 2017 17:00:46 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:46.715Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T21:00:46.716Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/quickload-f4a75/tokens  
+ Sat Nov 04 2017 17:00:46 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:47.036Z] <<< HTTP RESPONSE 200
 [info] 1
 [info] 
 [info] === Deploying to 'quickload-f4a75'...
 [info] 
 [info] i  deploying functions
-[debug] [2017-11-04T20:14:30.370Z] > [functions] package.json contents: {
+[debug] [2017-11-04T21:00:47.677Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -38,6 +38,7 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "cors": "^2.8.4",
     "firebase-admin": "~5.4.2",
     "firebase-functions": "^0.7.1"
   },
@@ -45,17 +46,17 @@
 }
 [info] i  functions: ensuring necessary APIs are enabled...
 [info] i  runtimeconfig: ensuring necessary APIs are enabled...
-[debug] [2017-11-04T20:14:30.372Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
- Sat Nov 04 2017 16:14:30 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:30.373Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
- Sat Nov 04 2017 16:14:30 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:30.808Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T21:00:47.680Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sat Nov 04 2017 17:00:47 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:47.680Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sat Nov 04 2017 17:00:47 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:48.127Z] <<< HTTP RESPONSE 200
 [info] ✔  runtimeconfig: all necessary APIs are enabled
-[debug] [2017-11-04T20:14:30.816Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T21:00:48.131Z] <<< HTTP RESPONSE 200
 [info] ✔  functions: all necessary APIs are enabled
-[debug] [2017-11-04T20:14:30.818Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/quickload-f4a75  
- Sat Nov 04 2017 16:14:30 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:30.819Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/quickload-f4a75/apiKeys  
- Sat Nov 04 2017 16:14:30 GMT-0400 (EDT)
-[debug] [2017-11-04T20:14:31.064Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-04T20:14:31.236Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T21:00:48.132Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/quickload-f4a75  
+ Sat Nov 04 2017 17:00:48 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:48.133Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/quickload-f4a75/apiKeys  
+ Sat Nov 04 2017 17:00:48 GMT-0400 (EDT)
+[debug] [2017-11-04T21:00:48.361Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-04T21:00:48.525Z] <<< HTTP RESPONSE 200

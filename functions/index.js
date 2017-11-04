@@ -1,5 +1,8 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const cors = require('cors')({
+    origin: true
+  });
 admin.initializeApp(functions.config().firebase);
 
 // // Create and Deploy Your First Cloud Functions
@@ -8,28 +11,30 @@ admin.initializeApp(functions.config().firebase);
 
 
 exports.jobs = functions.https.onRequest((request, response) => {
-    const docRef = admin.firestore().collection("jobs")
-
-    var jobs = [];
-
-    docRef
-        .get()
-        .then(snapshot => {
-            snapshot.forEach(doc => {
-                jobs.push(doc.data());
+    cors((req, res, () => {
+        const docRef = admin.firestore().collection("jobs")
+    
+        var jobs = [];
+    
+        docRef
+            .get()
+            .then(snapshot => {
+                snapshot.forEach(doc => {
+                    jobs.push(doc.data());
+                });
+    
+    
+                // const filteredJobs = jobs.map((job) => {
+                //     return {
+                //         id: job.documentID,
+                //         PickCity: job.PickCity,
+                //         QLNumber: job.QLNumber
+                //     }
+                // })
+    
+                response.send(200, jobs);
             });
-
-
-            // const filteredJobs = jobs.map((job) => {
-            //     return {
-            //         id: job.documentID,
-            //         PickCity: job.PickCity,
-            //         QLNumber: job.QLNumber
-            //     }
-            // })
-
-            response.send(200, jobs);
-        });
+    }));
 });
 
 
