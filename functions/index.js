@@ -16,6 +16,10 @@ const mailTransport = nodemailer.createTransport(
 //     origin: true
 // });
 admin.initializeApp(functions.config().firebase);
+var db = admin.firestore();
+
+
+
 
 // Your company name to include in the emails
 // TODO: Change this to your app or company name to customize the email sent.
@@ -191,3 +195,36 @@ function sendEmail(email, displayName) {
         console.log('New welcome email sent to:', email);
     });
 }
+
+
+/**
+ * Location Search Functionality. This will only work with the URL Encoded data
+ */
+exports.location = functions.https.onRequest((req, res) => {
+    let locationList = [];
+    let location = req.query.location;
+    console.log(location)
+    var query = db.collection('jobs').where("PickCity", "==", location);
+    query.get().then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+            locationList.push(documentSnapshot.data());
+            console.log(`Found document at ${documentSnapshot.ref.path}`);
+        });
+        locationList = locationList.map((obj) => {
+            return {
+                PickCity: obj.PickCity,
+                PickStation: obj.PickStation,
+                PickDate: obj.PickDate,
+                QLNumber: obj.QLNumber,
+                PickTime: obj.PickTime,
+                DropDate: obj.DropDate,
+                DropTime: obj.DropTime,
+                JobPrice: obj.JobPrice,
+                LoadType: obj.LoadType,
+                Pallet: obj.Pallet,
+                DropCity: obj.DropCity
+            }
+        })
+        res.status(200).send(locationList);
+    });
+});
