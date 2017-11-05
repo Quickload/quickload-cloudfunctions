@@ -142,21 +142,21 @@ exports.user = functions.https.onRequest((request, response) => {
 // Add job to users acceptedJobs collection
 // Send an email upon success
 exports.addJob = functions.https.onRequest((request, response) => {
-    let userJobRef = admin.firestore().collection("users").doc(request.query.userId).collection("acceptedJobs")
-
-    userJobRef.add({
+    const data = {
         jobId: request.query.jobId
-    }).then(ref => {
-        console.log('Added document with ID: ', ref.id);
-        console.log(ref, 'ref data');
-        response.send(200);
-    });
+    }
+
+    let userJobRef = admin.firestore().collection("users")
+        .doc(request.query.userId)
+        .collection("acceptedJobs").doc(request.query.jobId)
+        .set(data)
 });
 
 // Remove job from user's acceptedJobs collection
 exports.cancelJob = functions.https.onRequest((request, response) => {
     let userJobRef = admin.firestore().collection("users")
-        .doc(request.query.userId).collection("acceptedJobs")
+        .doc(request.query.userId)
+        .collection("acceptedJobs")
         .doc(request.query.jobId)
         .delete()
 
@@ -164,13 +164,13 @@ exports.cancelJob = functions.https.onRequest((request, response) => {
 });
 
 // [START onCreateTrigger]
-exports.sendAcceptedEmail = functions.firestore.document('users/{uid}/acceptedJobs/{jobId}')
+exports.sendAcceptedJobEmail = functions.firestore.document('users/{uid}/acceptedJobs/{jobId}')
     .onCreate(event => {
         // [END onCreateTrigger]
         // [START eventAttributes]
         const user = event.data.data()
 
-        const email = "quickload@gmail.com"; // The email of the user.
+        const email = "gperlman27@gmail.com"; // The email of the user.
         const displayName = "userName here"; // The display name of the user.
         // [END eventAttributes]
 
