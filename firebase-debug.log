@@ -1,0 +1,279 @@
+[debug] [2017-11-05T23:27:28.478Z] ----------------------------------------------------------------------
+[debug] [2017-11-05T23:27:28.479Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only functions
+[debug] [2017-11-05T23:27:28.480Z] CLI Version:   3.14.0
+[debug] [2017-11-05T23:27:28.480Z] Platform:      darwin
+[debug] [2017-11-05T23:27:28.480Z] Node Version:  v9.0.0
+[debug] [2017-11-05T23:27:28.480Z] Time:          Sun Nov 05 2017 18:27:28 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:28.480Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-11-05T23:27:28.491Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-11-05T23:27:28.491Z] > authorizing via signed-in user
+[debug] [2017-11-05T23:27:28.492Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/quickload-f4a75  
+ Sun Nov 05 2017 18:27:28 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:29.109Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:29.110Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/quickload-f4a75/tokens  
+ Sun Nov 05 2017 18:27:29 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:30.008Z] <<< HTTP RESPONSE 200
+[info] 1
+[info] 
+[info] === Deploying to 'quickload-f4a75'...
+[info] 
+[info] i  deploying functions
+[debug] [2017-11-05T23:27:30.788Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase experimental:functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "cors": "^2.8.4",
+    "firebase-admin": "~5.4.2",
+    "firebase-functions": "^0.7.1",
+    "nodemailer": "^4.3.1"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[info] i  runtimeconfig: ensuring necessary APIs are enabled...
+[debug] [2017-11-05T23:27:30.789Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sun Nov 05 2017 18:27:30 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:30.790Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sun Nov 05 2017 18:27:30 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:31.443Z] <<< HTTP RESPONSE 200
+[info] ✔  runtimeconfig: all necessary APIs are enabled
+[debug] [2017-11-05T23:27:31.558Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2017-11-05T23:27:31.559Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/quickload-f4a75  
+ Sun Nov 05 2017 18:27:31 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:31.560Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/quickload-f4a75/apiKeys  
+ Sun Nov 05 2017 18:27:31 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:31.854Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:32.158Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2017-11-05T23:27:39.989Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs  
+ Sun Nov 05 2017 18:27:39 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:40.199Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:40.200Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs/gmail/variables  
+ Sun Nov 05 2017 18:27:40 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:40.555Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:40.556Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs/gmail/variables/email  
+ Sun Nov 05 2017 18:27:40 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:40.556Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs/gmail/variables/password  
+ Sun Nov 05 2017 18:27:40 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:40.828Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:40.868Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (64.68 KB) for uploading
+[debug] [2017-11-05T23:27:45.404Z] >>> HTTP REQUEST GET https://www.googleapis.com/storage/v1/b/staging.quickload-f4a75.appspot.com  
+ Sun Nov 05 2017 18:27:45 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:45.754Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:45.754Z] >>> HTTP REQUEST POST https://www.googleapis.com/upload/storage/v1/b/staging.quickload-f4a75.appspot.com/o?uploadType=media&name=firebase-functions-source ReadStream {
+  _readableState: 
+   ReadableState {
+     objectMode: false,
+     highWaterMark: 65536,
+     buffer: BufferList { head: [Object], tail: [Object], length: 1 },
+     length: 65536,
+     pipes: null,
+     pipesCount: 0,
+     flowing: null,
+     ended: false,
+     endEmitted: false,
+     reading: false,
+     sync: false,
+     needReadable: false,
+     emittedReadable: true,
+     readableListening: false,
+     resumeScheduled: false,
+     destroyed: false,
+     defaultEncoding: 'utf8',
+     awaitDrain: 0,
+     readingMore: false,
+     decoder: null,
+     encoding: null },
+  readable: true,
+  domain: null,
+  _events: { end: [Function] },
+  _eventsCount: 1,
+  _maxListeners: undefined,
+  path: '/var/folders/f9/0vgww9qs4658r5l6k5f8pnj00000gn/T/firebase-functions-79533UMA7V9j3X9kX.zip',
+  fd: 19,
+  flags: 'r',
+  mode: 438,
+  start: undefined,
+  end: undefined,
+  autoClose: true,
+  pos: undefined,
+  bytesRead: 65536 } 
+ Sun Nov 05 2017 18:27:45 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:46.649Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: functions folder uploaded successfully
+[debug] [2017-11-05T23:27:46.651Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions  
+ Sun Nov 05 2017 18:27:46 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.127Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating function job...
+[debug] [2017-11-05T23:27:47.129Z] Trigger is: 
+[info] i  functions: updating function jobs...
+[debug] [2017-11-05T23:27:47.130Z] Trigger is: 
+[info] i  functions: updating function user...
+[debug] [2017-11-05T23:27:47.130Z] Trigger is: 
+[info] i  functions: updating function addJob...
+[debug] [2017-11-05T23:27:47.130Z] Trigger is: 
+[info] i  functions: updating function cancelJob...
+[debug] [2017-11-05T23:27:47.131Z] Trigger is: 
+[info] i  functions: updating function sendAcceptedJobEmail...
+[debug] [2017-11-05T23:27:47.132Z] Trigger is: 
+[info] i  functions: updating function location...
+[debug] [2017-11-05T23:27:47.132Z] Trigger is: 
+[debug] [2017-11-05T23:27:47.133Z] >>> HTTP REQUEST PUT https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions/job { sourceArchiveUrl: 'gs://staging.quickload-f4a75.appspot.com/firebase-functions-source',
+  name: 'projects/quickload-f4a75/locations/us-central1/functions/job',
+  entryPoint: 'job',
+  timeout: '60s',
+  availableMemoryMb: 256,
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.134Z] >>> HTTP REQUEST PUT https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions/jobs { sourceArchiveUrl: 'gs://staging.quickload-f4a75.appspot.com/firebase-functions-source',
+  name: 'projects/quickload-f4a75/locations/us-central1/functions/jobs',
+  entryPoint: 'jobs',
+  timeout: '60s',
+  availableMemoryMb: 256,
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.135Z] >>> HTTP REQUEST PUT https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions/user { sourceArchiveUrl: 'gs://staging.quickload-f4a75.appspot.com/firebase-functions-source',
+  name: 'projects/quickload-f4a75/locations/us-central1/functions/user',
+  entryPoint: 'user',
+  timeout: '60s',
+  availableMemoryMb: 256,
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.135Z] >>> HTTP REQUEST PUT https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions/addJob { sourceArchiveUrl: 'gs://staging.quickload-f4a75.appspot.com/firebase-functions-source',
+  name: 'projects/quickload-f4a75/locations/us-central1/functions/addJob',
+  entryPoint: 'addJob',
+  timeout: '60s',
+  availableMemoryMb: 256,
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.136Z] >>> HTTP REQUEST PUT https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions/cancelJob { sourceArchiveUrl: 'gs://staging.quickload-f4a75.appspot.com/firebase-functions-source',
+  name: 'projects/quickload-f4a75/locations/us-central1/functions/cancelJob',
+  entryPoint: 'cancelJob',
+  timeout: '60s',
+  availableMemoryMb: 256,
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.136Z] >>> HTTP REQUEST PUT https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions/sendAcceptedJobEmail { sourceArchiveUrl: 'gs://staging.quickload-f4a75.appspot.com/firebase-functions-source',
+  name: 'projects/quickload-f4a75/locations/us-central1/functions/sendAcceptedJobEmail',
+  entryPoint: 'sendAcceptedJobEmail',
+  timeout: '60s',
+  availableMemoryMb: 256,
+  labels: { 'deployment-tool': 'cli-firebase' },
+  eventTrigger: 
+   { resource: 'projects/quickload-f4a75/databases/(default)/documents/users/{uid}/acceptedJobs/{jobId}',
+     eventType: 'providers/cloud.firestore/eventTypes/document.create' } } 
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.136Z] >>> HTTP REQUEST PUT https://cloudfunctions.googleapis.com/v1beta2/projects/quickload-f4a75/locations/us-central1/functions/location { sourceArchiveUrl: 'gs://staging.quickload-f4a75.appspot.com/firebase-functions-source',
+  name: 'projects/quickload-f4a75/locations/us-central1/functions/location',
+  entryPoint: 'location',
+  timeout: '60s',
+  availableMemoryMb: 256,
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.403Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:47.565Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:47.570Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:47.585Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:47.586Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:47.586Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:47.588Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:47.590Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYi82VVZ2emZsT1h3RQ  
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.591Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYnMvcGRmQU1oSEtnY2M  
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.591Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3VzZXIvdVlRekp3N0prS00  
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.591Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2FkZEpvYi8tWWNHdUxnanV2TQ  
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.591Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2NhbmNlbEpvYi9FWmllb0FfM195NA  
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.591Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3NlbmRBY2NlcHRlZEpvYkVtYWlsL1dSQ1J0czk3ei1r  
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:47.592Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2xvY2F0aW9uL3RmQnluUXBZQ1hB  
+ Sun Nov 05 2017 18:27:47 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:48.030Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:48.031Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:48.031Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:48.032Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:48.032Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:48.033Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:48.033Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:50.037Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYnMvcGRmQU1oSEtnY2M  
+ Sun Nov 05 2017 18:27:50 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:50.037Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYi82VVZ2emZsT1h3RQ  
+ Sun Nov 05 2017 18:27:50 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:50.040Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2NhbmNlbEpvYi9FWmllb0FfM195NA  
+ Sun Nov 05 2017 18:27:50 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:50.040Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2xvY2F0aW9uL3RmQnluUXBZQ1hB  
+ Sun Nov 05 2017 18:27:50 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:50.040Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2FkZEpvYi8tWWNHdUxnanV2TQ  
+ Sun Nov 05 2017 18:27:50 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:50.041Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3VzZXIvdVlRekp3N0prS00  
+ Sun Nov 05 2017 18:27:50 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:50.041Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3NlbmRBY2NlcHRlZEpvYkVtYWlsL1dSQ1J0czk3ei1r  
+ Sun Nov 05 2017 18:27:50 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:50.590Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:50.592Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:50.592Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:50.593Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:50.593Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:50.593Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:50.593Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:52.592Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3VzZXIvdVlRekp3N0prS00  
+ Sun Nov 05 2017 18:27:52 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:52.594Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2xvY2F0aW9uL3RmQnluUXBZQ1hB  
+ Sun Nov 05 2017 18:27:52 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:52.595Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYi82VVZ2emZsT1h3RQ  
+ Sun Nov 05 2017 18:27:52 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:52.595Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2NhbmNlbEpvYi9FWmllb0FfM195NA  
+ Sun Nov 05 2017 18:27:52 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:52.595Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYnMvcGRmQU1oSEtnY2M  
+ Sun Nov 05 2017 18:27:52 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:52.595Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3NlbmRBY2NlcHRlZEpvYkVtYWlsL1dSQ1J0czk3ei1r  
+ Sun Nov 05 2017 18:27:52 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:52.595Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2FkZEpvYi8tWWNHdUxnanV2TQ  
+ Sun Nov 05 2017 18:27:52 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:53.013Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:53.039Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:53.039Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:53.044Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:53.047Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:53.052Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:53.060Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:55.016Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3VzZXIvdVlRekp3N0prS00  
+ Sun Nov 05 2017 18:27:55 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:55.039Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2NhbmNlbEpvYi9FWmllb0FfM195NA  
+ Sun Nov 05 2017 18:27:55 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:55.041Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2xvY2F0aW9uL3RmQnluUXBZQ1hB  
+ Sun Nov 05 2017 18:27:55 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:55.045Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYi82VVZ2emZsT1h3RQ  
+ Sun Nov 05 2017 18:27:55 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:55.048Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2FkZEpvYi8tWWNHdUxnanV2TQ  
+ Sun Nov 05 2017 18:27:55 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:55.052Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL3NlbmRBY2NlcHRlZEpvYkVtYWlsL1dSQ1J0czk3ei1r  
+ Sun Nov 05 2017 18:27:55 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:55.061Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1beta2/operations/cXVpY2tsb2FkLWY0YTc1L3VzLWNlbnRyYWwxL2pvYnMvcGRmQU1oSEtnY2M  
+ Sun Nov 05 2017 18:27:55 GMT-0500 (EST)
+[debug] [2017-11-05T23:27:55.382Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:55.386Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:55.404Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:55.411Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:55.413Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:55.421Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T23:27:55.433Z] <<< HTTP RESPONSE 200

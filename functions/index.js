@@ -36,21 +36,37 @@ function checkLoadTypeAndPopulate(data) {
     if (data.ShipmentTypeName === 'Partial') {
         data.ShipType = {
             lebel: data.ShipmentTypeName,
-            tags: [data.LoadType, data.PalletsQuantity, data.TotalWeight + ' ' + data.WeightUnitTypeId]
+            tags: [
+                data.LoadType,
+                data.PalletsQuantity + ' ' + data.LoadType + (data.PalletsQuantity > 1 ? 's' : '' + ' '),
+                data.TotalWeight + ' ' + data.WeightUnitTypeId
+            ]
         }
     }
     if (data.ShipmentTypeName === 'Full') {
         data.ShipType = {
             label: data.ShipmentTypeName,
-            tags: [data.TotalWeight + ' ' + data.WeightUnitTypeId]
+            tags: [
+                data.LoadType,
+                data.PalletsQuantity + ' ' + data.LoadType + (data.PalletsQuantity > 1 ? 's' : '' + ' '),
+                data.TotalWeight + ' ' + data.WeightUnitTypeId
+            ]
         }
     }
     if (data.ShipmentTypeName === 'Container') {
         data.ShipType = {
             label: data.ShipmentTypeName,
-            tags: [data.LoadType, data.PalletsQuantity, data.TotalWeight + ' ' + data.WeightUnitTypeId, data.ContainerSize + ' ' + data.ContainerSizeUnit, data.ContainerType]
+            tags: [
+                data.LoadType,
+                data.PalletsQuantity + ' ' + data.LoadType + (data.PalletsQuantity > 1 ? 's' : '' + ' '),
+                data.TotalWeight + ' ' + data.WeightUnitTypeId,
+                data.ContainerSize + ' ' + data.ContainerSizeUnit,
+                data.ContainerType
+            ]
         }
     }
+    const rex = /\S/
+    data.ShipType.tags = data.ShipType.tags.filter(rex.test.bind(rex));
     return data;
 }
 
