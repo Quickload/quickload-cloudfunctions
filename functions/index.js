@@ -12,9 +12,7 @@ const gmailPassword = encodeURIComponent(functions.config().gmail.password);
 const mailTransport = nodemailer.createTransport(
     `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
-// const cors = require('cors')({
-//     origin: true
-// });
+
 admin.initializeApp(functions.config().firebase);
 var db = admin.firestore();
 
@@ -30,8 +28,36 @@ function useCors(req, res) {
     return res
 }
 
-// Get one job
-// Params: jobId: String
+/**
+ * A simple function to extract and manipulate the objects for tags
+ * @param {Object} data 
+ */
+function checkLoadTypeAndPopulate(data) {
+    if (data.ShipmentTypeName === 'Partial') {
+        data.ShipType = {
+            lebel: data.ShipmentTypeName,
+            tags: [data.LoadType, data.PalletsQuantity, data.TotalWeight + ' ' + data.WeightUnitTypeId]
+        }
+    }
+    if (data.ShipmentTypeName === 'Full') {
+        data.ShipType = {
+            label: data.ShipmentTypeName,
+            tags: [data.TotalWeight + ' ' + data.WeightUnitTypeId]
+        }
+    }
+    if (data.ShipmentTypeName === 'Container') {
+        data.ShipType = {
+            label: data.ShipmentTypeName,
+            tags: [data.LoadType, data.PalletsQuantity, data.TotalWeight + ' ' + data.WeightUnitTypeId, data.ContainerSize + ' ' + data.ContainerSizeUnit, data.ContainerType]
+        }
+    }
+    return data;
+}
+
+/**
+ * Get Job by id
+ * Params: jobId: String
+ */
 exports.job = functions.https.onRequest((request, response) => {
     response.set('Access-Control-Allow-Origin', "*")
     response.set('Access-Control-Allow-Methods', 'GET, POST')
@@ -42,7 +68,7 @@ exports.job = functions.https.onRequest((request, response) => {
 
     jobRef.get()
         .then(doc => {
-            job = doc.data()
+            job = checkLoadTypeAndPopulate(doc.data());
             job["jobId"] = doc.id
             response.send(200, job);
         })
@@ -63,7 +89,7 @@ exports.jobs = functions.https.onRequest((request, response) => {
         .get()
         .then(snapshot => {
             snapshot.forEach(doc => {
-                let data = doc.data()
+                let data = checkLoadTypeAndPopulate(doc.data());
                 data["jobId"] = doc.id;
                 jobs.push(data);
             });
@@ -94,14 +120,6 @@ exports.jobs = functions.https.onRequest((request, response) => {
                 console.log(jobs.length, "all jobs")
                 response.send(200, jobs);
             }
-
-            // const filteredJobs = jobs.map((job) => {
-            //     return {
-            //         id: job.documentID,
-            //         PickCity: job.PickCity,
-            //         QLNumber: job.QLNumber
-            //     }
-            // })
         });
 });
 
@@ -196,6 +214,9 @@ exports.addJob = functions.https.onRequest((request, response) => {
         jobId: request.query.jobId
     }
 
+    //Setting the User ID in the Job
+    admin.firestore().collection('jobs').doc(data.jobId).set({ AcceptedBy: uid }, { merge: true });
+
     let userJobRef = admin.firestore().collection("users")
         .doc(uid)
         .collection("acceptedJobs").doc(request.query.jobId)
@@ -237,11 +258,11 @@ exports.sendAcceptedJobEmail = functions.firestore.document('users/{uid}/accepte
         return sendEmail(email, displayName);
     });
 
-/**
- * EMAILS
- */
+// /**
+//  * EMAILS
+//  */
 
-// Template function for sending emails.
+// // Template function for sending emails.
 function sendEmail(email, displayName) {
     const mailOptions = {
         from: `${APP_NAME} <noreply@firebase.com>`,
@@ -271,24 +292,9 @@ exports.location = functions.https.onRequest((req, res) => {
     var query = db.collection('jobs').where("PickCity", "==", location);
     query.get().then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-            locationList.push(documentSnapshot.data());
+            locationList.push(checkLoadTypeAndPopulate(documentSnapshot.data()));
             console.log(`Found document at ${documentSnapshot.ref.path}`);
         });
-        locationList = locationList.map((obj) => {
-            return {
-                PickCity: obj.PickCity,
-                PickStation: obj.PickStation,
-                PickDate: obj.PickDate,
-                QLNumber: obj.QLNumber,
-                PickTime: obj.PickTime,
-                DropDate: obj.DropDate,
-                DropTime: obj.DropTime,
-                JobPrice: obj.JobPrice,
-                LoadType: obj.LoadType,
-                Pallet: obj.Pallet,
-                DropCity: obj.DropCity
-            }
-        })
         res.status(200).send(locationList);
     });
 });
