@@ -150,6 +150,8 @@ exports.addJob = functions.https.onRequest((request, response) => {
         .doc(request.query.userId)
         .collection("acceptedJobs").doc(request.query.jobId)
         .set(data)
+
+    response.send(200);
 });
 
 // Remove job from user's acceptedJobs collection
