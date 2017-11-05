@@ -1,0 +1,68 @@
+[debug] [2017-11-05T19:04:45.264Z] ----------------------------------------------------------------------
+[debug] [2017-11-05T19:04:45.269Z] Command:       /usr/local/Cellar/node/8.9.0/bin/node /usr/local/bin/firebase deploy --only functions:job
+[debug] [2017-11-05T19:04:45.270Z] CLI Version:   3.14.0
+[debug] [2017-11-05T19:04:45.270Z] Platform:      darwin
+[debug] [2017-11-05T19:04:45.270Z] Node Version:  v8.9.0
+[debug] [2017-11-05T19:04:45.271Z] Time:          Sun Nov 05 2017 14:04:45 GMT-0500 (EST)
+[debug] [2017-11-05T19:04:45.271Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-11-05T19:04:45.341Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-11-05T19:04:45.342Z] > authorizing via signed-in user
+[debug] [2017-11-05T19:04:45.347Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/quickload-f4a75  
+ Sun Nov 05 2017 14:04:45 GMT-0500 (EST)
+[debug] [2017-11-05T19:04:45.851Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T19:04:45.852Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/quickload-f4a75/tokens  
+ Sun Nov 05 2017 14:04:45 GMT-0500 (EST)
+[debug] [2017-11-05T19:04:46.200Z] <<< HTTP RESPONSE 200
+[info] 1
+[info] 
+[info] === Deploying to 'quickload-f4a75'...
+[info] 
+[info] i  deploying functions
+[debug] [2017-11-05T19:04:46.935Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase experimental:functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "cors": "^2.8.4",
+    "firebase-admin": "~5.4.2",
+    "firebase-functions": "^0.7.1",
+    "nodemailer": "^4.3.1"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[info] i  runtimeconfig: ensuring necessary APIs are enabled...
+[debug] [2017-11-05T19:04:46.938Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sun Nov 05 2017 14:04:46 GMT-0500 (EST)
+[debug] [2017-11-05T19:04:46.938Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/quickload-f4a75?view=CONSUMER_VIEW  
+ Sun Nov 05 2017 14:04:46 GMT-0500 (EST)
+[debug] [2017-11-05T19:04:47.489Z] <<< HTTP RESPONSE 200
+[info] ✔  runtimeconfig: all necessary APIs are enabled
+[debug] [2017-11-05T19:04:47.524Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2017-11-05T19:04:47.526Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/quickload-f4a75  
+ Sun Nov 05 2017 14:04:47 GMT-0500 (EST)
+[debug] [2017-11-05T19:04:47.527Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/quickload-f4a75/apiKeys  
+ Sun Nov 05 2017 14:04:47 GMT-0500 (EST)
+[debug] [2017-11-05T19:04:48.215Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T19:04:48.392Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2017-11-05T19:07:16.559Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs  
+ Sun Nov 05 2017 14:07:16 GMT-0500 (EST)
+[debug] [2017-11-05T19:07:16.924Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T19:07:16.926Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs/gmail/variables  
+ Sun Nov 05 2017 14:07:16 GMT-0500 (EST)
+[debug] [2017-11-05T19:07:17.478Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T19:07:17.479Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs/gmail/variables/email  
+ Sun Nov 05 2017 14:07:17 GMT-0500 (EST)
+[debug] [2017-11-05T19:07:17.480Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/quickload-f4a75/configs/gmail/variables/password  
+ Sun Nov 05 2017 14:07:17 GMT-0500 (EST)
+[debug] [2017-11-05T19:07:17.553Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-05T19:07:17.597Z] <<< HTTP RESPONSE 200

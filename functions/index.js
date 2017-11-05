@@ -10,7 +10,7 @@ const nodemailer = require('nodemailer');
 const gmailEmail = encodeURIComponent(functions.config().gmail.email);
 const gmailPassword = encodeURIComponent(functions.config().gmail.password);
 const mailTransport = nodemailer.createTransport(
-`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+    `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 // const cors = require('cors')({
 //     origin: true
@@ -30,6 +30,23 @@ function useCors(req, res) {
     return res
 }
 
+// Get one job
+// Params: jobId: String
+exports.job = functions.https.onRequest((request, response) => {
+    response.set('Access-Control-Allow-Origin', "*")
+    response.set('Access-Control-Allow-Methods', 'GET, POST')
+
+    let job = {}
+    const jobId = request.query.jobId
+    const jobRef = admin.firestore().collection("jobs").doc(jobId)
+
+    jobRef.get()
+        .then(doc => {
+            job = doc.data()
+            job["jobId"] = doc.id
+            response.send(200, job);
+        })
+})
 
 // Get all jobs
 // Data dump for now
@@ -65,9 +82,9 @@ exports.jobs = functions.https.onRequest((request, response) => {
                             userJobs.push(doc.data());
                         });
 
-                        const jobsExcludingUser  = jobs.filter(function(job){
-                            return userJobs.filter(function(userJob){
-                               return userJob.jobId == job.jobId;
+                        const jobsExcludingUser = jobs.filter(function (job) {
+                            return userJobs.filter(function (userJob) {
+                                return userJob.jobId == job.jobId;
                             }).length == 0
                         })
 
@@ -85,7 +102,6 @@ exports.jobs = functions.https.onRequest((request, response) => {
             //         QLNumber: job.QLNumber
             //     }
             // })
-
         });
 });
 
