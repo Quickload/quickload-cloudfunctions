@@ -68,6 +68,9 @@ exports.jobs = functions.https.onRequest((request, response) => {
 // Append acceptedJobs object to user
 // We need to use promises to resolve data fetching gracefully
 exports.user = functions.https.onRequest((request, response) => {
+    response.set('Access-Control-Allow-Origin', "*")
+    response.set('Access-Control-Allow-Methods', 'GET, POST')
+
     const uid = request.query.userId
     const usersRef = admin.firestore().collection("users")
     const jobsRef = admin.firestore().collection("jobs")
@@ -142,6 +145,10 @@ exports.user = functions.https.onRequest((request, response) => {
 // Add job to users acceptedJobs collection
 // Send an email upon success
 exports.addJob = functions.https.onRequest((request, response) => {
+    response.set('Access-Control-Allow-Origin', "*")
+    response.set('Access-Control-Allow-Methods', 'GET, POST')
+
+
     const data = {
         jobId: request.query.jobId
     }
@@ -154,6 +161,10 @@ exports.addJob = functions.https.onRequest((request, response) => {
 
 // Remove job from user's acceptedJobs collection
 exports.cancelJob = functions.https.onRequest((request, response) => {
+    response.set('Access-Control-Allow-Origin', "*")
+    response.set('Access-Control-Allow-Methods', 'GET, POST')
+
+
     let userJobRef = admin.firestore().collection("users")
         .doc(request.query.userId)
         .collection("acceptedJobs")
@@ -201,6 +212,10 @@ function sendEmail(email, displayName) {
  * Location Search Functionality. This will only work with the URL Encoded data
  */
 exports.location = functions.https.onRequest((req, res) => {
+    res.set('Access-Control-Allow-Origin', "*")
+    res.set('Access-Control-Allow-Methods', 'GET, POST')
+
+
     let locationList = [];
     let location = req.query.location;
     console.log(location)
