@@ -7,10 +7,10 @@ const nodemailer = require('nodemailer');
 // 2. https://accounts.google.com/DisplayUnlockCaptcha
 // For other types of transports such as Sendgrid see https://nodemailer.com/transports/
 // TODO: Configure the `gmail.email` and `gmail.password` Google Cloud environment variables.
-// const gmailEmail = encodeURIComponent(functions.config().gmail.email);
-// const gmailPassword = encodeURIComponent(functions.config().gmail.password);
-// const mailTransport = nodemailer.createTransport(
-// `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+const gmailEmail = encodeURIComponent(functions.config().gmail.email);
+const gmailPassword = encodeURIComponent(functions.config().gmail.password);
+const mailTransport = nodemailer.createTransport(
+`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 // const cors = require('cors')({
 //     origin: true
@@ -75,8 +75,9 @@ exports.jobs = functions.https.onRequest((request, response) => {
                     })
             } else {
                 console.log(jobs.length, "all jobs")
-                response.send(200, jobs.length);
+                response.send(200, jobs);
             }
+
             // const filteredJobs = jobs.map((job) => {
             //     return {
             //         id: job.documentID,
@@ -173,17 +174,20 @@ exports.addJob = functions.https.onRequest((request, response) => {
     response.set('Access-Control-Allow-Origin', "*")
     response.set('Access-Control-Allow-Methods', 'GET, POST')
 
+    const uid = request.query.userId
 
     const data = {
         jobId: request.query.jobId
     }
 
     let userJobRef = admin.firestore().collection("users")
-        .doc(request.query.userId)
+        .doc(uid)
         .collection("acceptedJobs").doc(request.query.jobId)
         .set(data)
+        .then(_ => response.redirect(`https://us-central1-quickload-f4a75.cloudfunctions.net/user?userId=${uid}`))
 
-    response.send(200);
+    // response.send(200);
+    // response.redirect(`https://us-central1-quickload-f4a75.cloudfunctions.net/user?userId=${uid}`);
 });
 
 // Remove job from user's acceptedJobs collection
@@ -191,14 +195,16 @@ exports.cancelJob = functions.https.onRequest((request, response) => {
     response.set('Access-Control-Allow-Origin', "*")
     response.set('Access-Control-Allow-Methods', 'GET, POST')
 
+    const uid = request.query.userId
 
     let userJobRef = admin.firestore().collection("users")
-        .doc(request.query.userId)
+        .doc(uid)
         .collection("acceptedJobs")
         .doc(request.query.jobId)
         .delete()
+        .then(_ => response.redirect(`https://us-central1-quickload-f4a75.cloudfunctions.net/user?userId=${uid}`))
 
-    response.send(200);
+    // response.send(200);
 });
 
 // [START onCreateTrigger]
