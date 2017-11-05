@@ -7,18 +7,16 @@ const nodemailer = require('nodemailer');
 // 2. https://accounts.google.com/DisplayUnlockCaptcha
 // For other types of transports such as Sendgrid see https://nodemailer.com/transports/
 // TODO: Configure the `gmail.email` and `gmail.password` Google Cloud environment variables.
-const gmailEmail = encodeURIComponent(functions.config().gmail.email);
-const gmailPassword = encodeURIComponent(functions.config().gmail.password);
-const mailTransport = nodemailer.createTransport(
-    `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+// const gmailEmail = encodeURIComponent(functions.config().gmail.email);
+// const gmailPassword = encodeURIComponent(functions.config().gmail.password);
+// const mailTransport = nodemailer.createTransport(
+// `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 // const cors = require('cors')({
 //     origin: true
 // });
 admin.initializeApp(functions.config().firebase);
 var db = admin.firestore();
-
-
 
 
 // Your company name to include in the emails
@@ -41,16 +39,44 @@ exports.jobs = functions.https.onRequest((request, response) => {
     // response = useCors(response);
     response.set('Access-Control-Allow-Origin', "*")
     response.set('Access-Control-Allow-Methods', 'GET, POST')
-    var jobs = [];
+
+    let jobs = [];
 
     docRef
         .get()
         .then(snapshot => {
             snapshot.forEach(doc => {
-                jobs.push(doc.data());
+                let data = doc.data()
+                data["jobId"] = doc.id;
+                jobs.push(data);
             });
 
+            // if we are sent a user id
+            // filter the job list of the user's jobs so we don't get duplicates
+            const uid = request.query.userId
+            if (uid) {
+                const userRef = admin.firestore().collection("users")
+                    .doc(uid)
+                    .collection("acceptedJobs")
+                    .get()
+                    .then(snapshot => {
+                        let userJobs = []
+                        snapshot.forEach(doc => {
+                            userJobs.push(doc.data());
+                        });
 
+                        const jobsExcludingUser  = jobs.filter(function(job){
+                            return userJobs.filter(function(userJob){
+                               return userJob.jobId == job.jobId;
+                            }).length == 0
+                        })
+
+                        response.send(200, jobsExcludingUser);
+                    })
+            } else {
+                console.log(jobs.length, "all jobs")
+                response.send(200, jobs.length);
+            }
             // const filteredJobs = jobs.map((job) => {
             //     return {
             //         id: job.documentID,
@@ -59,7 +85,6 @@ exports.jobs = functions.https.onRequest((request, response) => {
             //     }
             // })
 
-            response.send(200, jobs);
         });
 });
 
