@@ -268,7 +268,7 @@ exports.sendAcceptedJobEmail = functions.firestore.document('users/{uid}/accepte
         const user = event.data.data()
 
         const email = "gperlman27@gmail.com"; // The email of the user.
-        const displayName = "userName here"; // The display name of the user.
+        // const displayName = "userName here"; // The display name of the user.
         // [END eventAttributes]
 
         return sendEmail(email, displayName);
@@ -279,7 +279,7 @@ exports.sendAcceptedJobEmail = functions.firestore.document('users/{uid}/accepte
 //  */
 
 // // Template function for sending emails.
-function sendEmail(email, displayName) {
+function sendEmail(email, template) {
     const mailOptions = {
         from: `${APP_NAME} <noreply@firebase.com>`,
         to: email
@@ -287,11 +287,160 @@ function sendEmail(email, displayName) {
 
     // The user subscribed to the newsletter.
     mailOptions.subject = `${APP_NAME} - Accepted Load!`;
-    mailOptions.text = `Hey ${displayName || ''}! You just accepted a load. If you did not make this request, please cancel your job through the ${APP_NAME} app. I hope you will enjoy our service.`;
+    mailOptions.html = template;
     return mailTransport.sendMail(mailOptions).then(() => {
         console.log('New welcome email sent to:', email);
     });
 }
+
+exports.feedbackEmail = functions.https.onRequest((request, response) => {
+    response.set('Access-Control-Allow-Origin', "*")
+    response.set('Access-Control-Allow-Methods', 'GET, POST')
+
+    console.log(request, 'request');
+
+    const user = request.body.user;
+    const job = request.body.job;
+    const email = request.body.email;
+
+    const template = `
+    <body bgcolor="#f6f6f6" style="background-color: #f6f6f6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; margin: 0; padding: 0;">&#13;
+    &#13;
+    &#13;
+        <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0;;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><div style="text-align: center; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; margin-top: 50px; padding: 0;"><img style="text-align: center; width: 200px; height: auto;" src="https://www.quickload.com/images/quickload.png" alt="logo" /></div></td>&#13;</tr></table>
+    
+    <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 20px;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>&#13;
+            <td bgcolor="#FFFFFF" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto; padding: 20px; border: 1px solid #f0f0f0;">&#13;
+    &#13;
+                &#13;
+                <div style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">&#13;
+                <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">&#13;
+                            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Hi BOS Cargo, Great news! You got a new job from Miami to Pompano Beach. Details below:</p>&#13;
+                            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: bold; margin: 0 0 10px; padding: 0;">Driver: ${user.name}</p>&#13;
+                            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: bold; margin: 0 0 10px; padding: 0;">Load Details: </p>&#13;
+        
+            <ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; padding: 0;">
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">QuickLoad Shipment #: </span> ${job.QLNumber}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Price: </span> ${job.JobPrice}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">PO Number: </span> ${job.UserPoNumber}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Material: </span> ${job.MaterialType}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Accessorials: </span>
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Total Units / Total Weight: </span> ${job.PalletsQuantity} / ${job.TotalWeight}
+              </li>
+              
+            </ul>&#13;
+            
+            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: bold; margin: 0 0 10px; padding: 0;">Pickup Details: </p>&#13;
+        
+            <ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; padding: 0;">
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Date: </span> ${job.PickDate}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Time: Between </span> ${job.PickTime} to ${job.DropTime}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Address: </span> <a href="https://maps.google.com/?q=${job.PickStreet}, ${job.PickCity}, ${job.PickState} ${job.PickZip}" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">${job.PickStreet}, ${job.PickCity}, ${job.PickState} ${job.PickZip}</a>
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Contatct: </span> ${job.PickContactName}, <a href="tel:${job.PickContactPhone}" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">${job.PickContactPhone}</a>
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Instructions: </span> Q3YBYXJ
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Units / Total Weight: </span> ${job.PalletsQuantity} / ${job.TotalWeight}
+              </li>
+              
+            </ul>&#13;
+            
+            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: bold; margin: 0 0 10px; padding: 0;">Dropoff Details: </p>&#13;
+        
+            <ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; padding: 0;">
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Date: </span> ${job.DropDate}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Time: Between </span> ${job.PickTime} to ${job.DropTime}
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Address: </span> <a href="https://maps.google.com/?q=5491 ${job.DropStreet}, ${job.DropCity}, ${job.DropState} ${job.DropZip}" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">5491 ${job.DropStreet}, ${job.DropCity}, ${job.DropState} ${job.DropZip}</a>
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Contatct: </span> ${job.DropContactName}, <a href="tel:${job.DropContactPhone}" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">${job.DropContactPhone}</a>
+              </li>
+              <li style="margin-left: 10%;">
+                <span style="font-weight: bold">Instructions: </span> Q3YBYXJ
+              </li>
+              
+            </ul>&#13;
+            
+            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: bold; margin: 0 0 10px; padding: 0;">Pro Tips: </p>&#13;
+        
+            <ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; padding: 0;">
+              <li style="margin-left: 10%;">
+                Record and communicate time of arrival at the pick up and drop off locations
+              </li>
+              <li style="margin-left: 10%;">
+                Contact us right away if waiting time exceeds 2 hours
+              </li>
+              <li style="margin-left: 10%;">
+                When delivery is done, send the Proof of Delivery (POD) or Bill of Lading in order to get paid in 48 hours
+              </li>
+              
+            </ul>&#13;
+    
+                            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Thanks!</p>&#13;
+            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">The Quickload Team</p>&#13;
+                            <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">You can reach us at <a href="tel:305-827-0001" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">(305) 827-0001</a> or e-mail at <a href="mailto:support@quickload.com" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">support@quickload.com</a></p>&#13;
+                        </td>&#13;
+                    </tr></table></div>&#13;
+                &#13;
+                                        &#13;
+            </td>&#13;
+            <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>&#13;
+        </tr></table><table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; clear: both !important; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>&#13;
+            <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto; padding: 0;">&#13;
+                &#13;
+                &#13;
+                <div style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">&#13;
+                    <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td align="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">&#13;
+                                <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.6; color: #666; font-weight: bold; margin: 0 0 10px; padding: 0;">A clever, fast way to ship, with nothing to hide. <a href="#d41d8cd98f00b204e9800998ecf8427e" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #999; margin: 0; padding: 0;">&#13;
+                                </p>&#13;
+                            </td>&#13;
+                        </tr>
+                        <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td align="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">&#13;
+                                <img src="https://image.freepik.com/free-icon/facebook-logo-in-circular-shape_318-60407.jpg" style="height: 50px; width: 50px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.6; color: #666; font-weight: bold; margin: 0 0 10px; padding: 0;"/>
+                <img src="https://n6-img-fp.akamaized.net/free-icon/twitter-logo-button_318-85053.jpg?size=338c&ext=jpg" style="height: 50px; width: 50px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.6; color: #666; font-weight: bold; margin: 0 0 10px; padding: 0;"/>
+                <img src="https://n6-img-fp.akamaized.net/free-icon/linkedin-logo-button_318-84979.jpg?size=338c&ext=jpg" style="height: 50px; width: 50px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.6; color: #666; font-weight: bold; margin: 0 0 10px; padding: 0;"/>
+                <img src="http://www.bsr.ac.uk/site2014/wp-content/uploads/2013/11/instagramicon.png" style="height: 50px; width: 50px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.6; color: #666; font-weight: bold; margin: 0 0 10px; padding: 0;"/>
+                            </td>&#13;
+                        </tr>  
+              
+                        </table></div>&#13;
+                &#13;
+                    &#13;
+            </td>&#13;
+            <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>&#13;
+        </tr></table></body>
+    `;
+
+    sendEmail(email, template);
+
+    response.send(200, 'email sent');
+});
+
 
 
 /**
