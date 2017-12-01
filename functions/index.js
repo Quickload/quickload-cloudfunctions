@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const cors = require('cors')({ origin: true });
 const nodemailer = require('nodemailer');
 // Configure the email transport using the default SMTP transport and a GMail account.
 // For Gmail, enable these:
@@ -294,16 +295,14 @@ function sendEmail(email, template) {
 }
 
 exports.feedbackEmail = functions.https.onRequest((request, response) => {
-    response.set('Access-Control-Allow-Origin', "*")
-    response.set('Access-Control-Allow-Methods', 'GET, POST')
+    cors(request, response, () => {
+        console.log(request, 'request');
 
-    console.log(request, 'request');
+        const user = request.body.user;
+        const job = request.body.job;
+        const email = request.body.email;
 
-    const user = request.body.user;
-    const job = request.body.job;
-    const email = request.body.email;
-
-    const template = `
+        const template = `
     <body bgcolor="#f6f6f6" style="background-color: #f6f6f6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; margin: 0; padding: 0;">&#13;
     &#13;
     &#13;
@@ -357,7 +356,7 @@ exports.feedbackEmail = functions.https.onRequest((request, response) => {
                 <span style="font-weight: bold">Contatct: </span> ${job.PickContactName}, <a href="tel:${job.PickContactPhone}" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">${job.PickContactPhone}</a>
               </li>
               <li style="margin-left: 10%;">
-                <span style="font-weight: bold">Instructions: </span> Q3YBYXJ
+                <span style="font-weight: bold">Instructions: </span>
               </li>
               <li style="margin-left: 10%;">
                 <span style="font-weight: bold">Units / Total Weight: </span> ${job.PalletsQuantity} / ${job.TotalWeight}
@@ -381,7 +380,7 @@ exports.feedbackEmail = functions.https.onRequest((request, response) => {
                 <span style="font-weight: bold">Contatct: </span> ${job.DropContactName}, <a href="tel:${job.DropContactPhone}" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">${job.DropContactPhone}</a>
               </li>
               <li style="margin-left: 10%;">
-                <span style="font-weight: bold">Instructions: </span> Q3YBYXJ
+                <span style="font-weight: bold">Instructions: </span> 
               </li>
               
             </ul>&#13;
@@ -436,9 +435,10 @@ exports.feedbackEmail = functions.https.onRequest((request, response) => {
         </tr></table></body>
     `;
 
-    sendEmail(email, template);
+        sendEmail(email, template);
 
-    response.send(200, 'email sent');
+        response.send(200, 'email sent');
+    })
 });
 
 
