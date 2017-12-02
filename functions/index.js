@@ -8,10 +8,10 @@ const nodemailer = require('nodemailer');
 // 2. https://accounts.google.com/DisplayUnlockCaptcha
 // For other types of transports such as Sendgrid see https://nodemailer.com/transports/
 // TODO: Configure the `gmail.email` and `gmail.password` Google Cloud environment variables.
-const gmailEmail = encodeURIComponent(functions.config().gmail.email);
-const gmailPassword = encodeURIComponent(functions.config().gmail.password);
-const mailTransport = nodemailer.createTransport(
-    `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+// const gmailEmail = encodeURIComponent(functions.config().gmail.email);
+// const gmailPassword = encodeURIComponent(functions.config().gmail.password);
+// const mailTransport = nodemailer.createTransport(
+//     `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 
 admin.initializeApp(functions.config().firebase);
@@ -242,6 +242,20 @@ exports.addJob = functions.https.onRequest((request, response) => {
 
     // response.send(200);
     // response.redirect(`https://us-central1-quickload-f4a75.cloudfunctions.net/user?userId=${uid}`);
+});
+
+exports.getJobsByUser = functions.https.onRequest((req, res) => {
+    res.set('Access-Control-Allow-Origin', "*")
+    res.set('Access-Control-Allow-Methods', 'GET, POST')
+
+    const userEmail = req.query.email;
+    console.log(userEmail)
+    db.collection('users').where('emailId', '==', userEmail).get().then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+            console.log(documentSnapshot.data());
+            res.redirect(`https://us-central1-quickload-f4a75.cloudfunctions.net/user?userId=${documentSnapshot.data().userId}`);
+        });
+    });
 });
 
 // Remove job from user's acceptedJobs collection
