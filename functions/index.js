@@ -178,7 +178,10 @@ exports.user = functions.https.onRequest((request, response) => {
                                         console.log('No such document!');
                                     } else {
                                         console.log(doc.data(), 'pinned data')
-                                        pinnedJobs.push(doc.data())
+                                        var docWithId = doc.data();
+                                        docWithId.JobID="";
+                                        docWithId.JobID=jobId;
+                                        pinnedJobs.push(docWithId)
                                     }
                                 })
                             jobPromises.push(jobPromise)
@@ -199,7 +202,10 @@ exports.user = functions.https.onRequest((request, response) => {
                                         console.log('No such document!');
                                     } else {
                                         console.log(doc.data(), 'accepted data')
-                                        acceptJobs.push(doc.data())
+                                        var docWithId = doc.data();
+                                        docWithId.JobID="";
+                                        docWithId.JobID=jobId;
+                                        acceptJobs.push(docWithId);
                                     }
                                 })
                             jobPromises.push(jobPromise)
